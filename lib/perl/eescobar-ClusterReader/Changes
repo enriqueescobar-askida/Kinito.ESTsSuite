@@ -1,0 +1,6 @@
+Revision history for Perl extension eescobar::ClusterReader.
+
+1.0  Thu May 17 17:46:08 2007
+	- original version; created by h2xs 1.23 with options
+		-OXadftn eescobar::ClusterReader -v 1.0 -b 5.7.0 --use-new-tests --skip-ppport
+
