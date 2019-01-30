@@ -1,0 +1,4 @@
+#Query	Q-len	Hit	H-len	Score	Bits	Evalue	#HSPs	[HSP1]	...[HSP#HSPs]
+#HSP = Orient	Score	Bits	Evalue	Length	#ID	%ID	#Gap	%Gap	#Mismatch	%Mismatch	#N	%N	Q-start	Q-end	H-start	H-end	Alignment
+GQ02823.B7_E19.Contig1	573	GQ02823.B7_E19:26-597	572	1134	572	0.0	1	- 1134 572 0.0 572 572 100 0 0 0 0 2 573 572 1 572i
+GQ02823.B7_E19.Contig1	573	GQ02823.SP6_E19:80-639	560	1110	560	0.0	1	+ 1110 560 0.0 560 560 100 0 0 0 0 1 560 1 560 560i
