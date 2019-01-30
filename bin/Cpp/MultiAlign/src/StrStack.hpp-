@@ -1,0 +1,68 @@
+#ifndef		STRSTACK_HPP
+#define		STRSTACK_HPP
+#include	<string>
+
+/** @class StrStack StrStack.hpp Package/StrStack.hpp
+
+    Class allowing to manipulate sequence strings
+ 
+    @author Enrique Escobar
+    @date	20/02/2007
+*/
+class	StrStack
+{
+public:
+	//constructor
+	StrStack();
+	
+	//destructor
+	~StrStack();
+	
+	/** A method to add
+    @param	string		to push into
+	*/
+	void			push( const std::string& );
+	
+	/** A method to remove from
+	*/
+	void			pop();
+	
+	/** A method to fetch the top
+    @return	string	representing the top
+	*/
+	const std::string&	peek()	const;
+	
+	/** A method to get the depth
+    @return	int		an integer of depth
+	*/
+	int				getDepth()	const;
+	
+	/** A method to verify an emptyness
+    @return	bool	a boolean representing an empty stack or not
+	*/
+	bool			isEmpty()	const;
+	
+	std::string		getRefSeq();
+	
+	int				getRefLen();
+
+
+private:
+	std::string		refSeq;
+	int				refLen;
+	struct			SeqType;
+	
+	typedef			SeqType *SeqPtr;
+
+	//seq list
+	struct			SeqType
+	{
+		std::string	seqData;
+		SeqPtr		nextSeq;
+	};
+	
+	SeqType			*topSeq;
+};
+
+#endif
+

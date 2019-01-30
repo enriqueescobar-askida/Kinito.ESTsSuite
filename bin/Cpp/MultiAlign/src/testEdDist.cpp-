@@ -1,0 +1,30 @@
+#ifdef		HAVE_CONFIG_H
+#include	<config.h>
+#endif
+
+#include	<iostream>	//std io
+#include	<cstdlib>
+
+#include	<fstream>	//file io
+#include	<string>
+
+#include	"EdDist.hpp"
+
+using		namespace std;
+
+
+int			main( int argc, char *argv[] )
+{
+	cout				<< "Beginning!\n";
+	EdDist				myEdDist("GTA","ATACCGATAT");
+	cout				<< myEdDist.getDistance() << "\n";
+	myEdDist.print();
+	cout				<< "\n";
+	myEdDist.Align();
+	myEdDist.printAlign();
+	myEdDist.printOps();
+	cout				<< "\nEnding!" << endl;
+	return				EXIT_SUCCESS;
+}
+
+

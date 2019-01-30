@@ -1,0 +1,90 @@
+#include	"IntStack.hpp"
+#include	<cassert>
+
+
+//constructor
+IntStack::IntStack()
+{
+	//null pointer
+	topSeq			=	0;
+}
+
+//destructor
+IntStack::~IntStack()
+{
+	SeqPtr	tempPtr;
+	//cleanning
+	while ( topSeq != 0 ) {
+		tempPtr		=	topSeq;
+		topSeq		=	topSeq->nextSeq;
+		delete		tempPtr;
+	}
+}
+
+
+/** A method to add elements
+@param	int		an integer to push into the stack
+*/
+void	IntStack::Push(int Element)
+{
+	//memory allocation
+	SeqPtr	newPtr	=	new	SeqType;
+	//memory allocation verification
+	assert ( newPtr != 0 );
+	//value copy
+	newPtr->seqData	=	Element;
+	//2nd element is now summit
+	newPtr->nextSeq	=	topSeq;
+	//summit is new element
+	topSeq			=	newPtr;
+}
+
+/** A method to remove elements
+*/
+void	IntStack::Pop()
+{
+	SeqPtr	tempPtr	=	topSeq;
+	//existance verification
+	assert ( topSeq != 0 );
+	//2nd element is summit
+	topSeq			=	topSeq->nextSeq;
+	//free memory
+	delete			tempPtr;
+}
+
+/** A method to fetch the top element
+@return	element	an integer representing the first element
+*/
+int		IntStack::Summit() const
+{
+	//existance verification
+	assert ( topSeq != 0 );
+	//return summit
+	return			topSeq->seqData;
+}
+
+/** A method to get the depth
+@return	int		an integer the depth of the stack
+*/
+int		IntStack::Depth() const
+{
+	int seqCounter		=	0;
+	//from summit
+	SeqPtr	tempPtr	=	topSeq;
+	//to all element
+	while ( tempPtr != 0 ) {
+		seqCounter++;
+		//go next
+		tempPtr		=	tempPtr->nextSeq;
+	}
+	return			seqCounter;
+}
+
+/** A method to verify an empty stack
+@return	bool	a boolean representing an empty stack or not
+*/
+bool	IntStack::isEmpty() const
+{
+	return		(topSeq	==	0);
+}
+

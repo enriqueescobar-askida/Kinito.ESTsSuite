@@ -1,0 +1,60 @@
+#ifndef	INTSTACK_HPP
+#define	INTSTACK_HPP
+
+ /** @class IntStack IntStack.hpp Package/IntStack.hpp
+
+    Class allowing to manipulate sequence strings
+ 
+    @author Enrique Escobar
+    @date	20/02/2007
+*/
+class	IntStack
+{
+public:
+	//constructor
+	IntStack();
+	
+	//destructor
+	~IntStack();
+	
+	/** A method to add elements
+    @param	int		an integer to push into the stack
+	*/
+	void	Push(int);
+	
+	/** A method to remove elements
+	*/
+	void	Pop();
+	
+	/** A method to fetch the top element
+    @return	element	an integer representing the first element
+	*/
+	int		Summit()	const;
+	
+	/** A method to get the depth
+    @return	int		an integer the depth of the stack
+	*/
+	int		Depth()		const;
+	
+	/** A method to verify an empty stack
+    @return	bool	a boolean representing an empty stack or not
+	*/
+	bool	isEmpty()	const;
+
+
+private:
+	struct	SeqType;
+	
+	typedef	SeqType *SeqPtr;
+
+	//seq list
+	struct	SeqType
+	{
+		int		seqData;
+		SeqPtr	nextSeq;
+	};
+	
+	SeqType	*topSeq;
+};
+
+#endif

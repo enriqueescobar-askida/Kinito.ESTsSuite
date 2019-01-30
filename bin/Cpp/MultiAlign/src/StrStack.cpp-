@@ -1,0 +1,118 @@
+#include	"StrStack.hpp"
+#include	<cassert>
+#include	<boost/regex.hpp>
+
+using	namespace std;
+
+//constructor
+StrStack::StrStack()
+{
+	//null pointer
+	topSeq			=	0;
+}
+
+//destructor
+StrStack::~StrStack()
+{
+	SeqPtr	tempPtr;
+	//cleanning
+	while ( topSeq != 0 ) {
+		tempPtr		=	topSeq;
+		topSeq		=	topSeq->nextSeq;
+		delete		tempPtr;
+	}
+}
+
+
+/** A method to add elements
+@param	string		an integer to push into the stack
+*/
+void			StrStack::push( const string& Element)
+{
+	//parsing with regex
+	string	newStr	=	boost::regex_replace( Element, boost::regex("[:;.,'!?@&()^%$#~]"), " " );
+	//memory allocation
+	SeqPtr	newPtr	=	new	SeqType;
+	//memory allocation verification
+	assert ( newPtr != 0 );
+	//value copy
+	newPtr->seqData	=	newStr;
+	//2nd element is now summit
+	newPtr->nextSeq	=	topSeq;
+	//summit is new element
+	topSeq			=	newPtr;
+	
+	if ( refSeq.empty() )
+	{
+		refSeq		=	newStr;
+		refLen		=	newStr.length();
+	}
+	else
+	{
+		if ( refSeq.length() <= newStr.length() )
+		{
+			refSeq	=	newStr;
+			refLen	=	newStr.length();
+		}
+	}
+}
+
+/** A method to remove elements
+*/
+void			StrStack::pop()
+{
+	SeqPtr	tempPtr	=	topSeq;
+	//existance verification
+	assert ( topSeq != 0 );
+	//2nd element is summit
+	topSeq			=	topSeq->nextSeq;
+	//free memory
+	delete			tempPtr;
+}
+
+/** A method to fetch the top element
+@return	element	an integer representing the first element
+*/
+const string&	StrStack::peek() const
+{
+	//existance verification
+	assert ( topSeq != 0 );
+	//return summit
+	return			topSeq->seqData;
+}
+
+/** A method to get the depth
+@return	int		an integer the depth of the stack
+*/
+int				StrStack::getDepth() const
+{
+	int		seqCounter	=	0;
+	//from summit
+	SeqPtr	tempPtr	=	topSeq;
+	//to all element
+	while ( tempPtr != 0 )
+	{
+		seqCounter++;
+		//go next
+		tempPtr		=	tempPtr->nextSeq;
+	}
+	return			seqCounter;
+}
+
+/** A method to verify an empty stack
+@return	bool	a boolean representing an empty stack or not
+*/
+bool			StrStack::isEmpty() const
+{
+	return			(topSeq	==	0);
+}
+
+string			StrStack::getRefSeq()
+{
+	return			StrStack::refSeq;
+}
+
+int				StrStack::getRefLen()
+{
+	return			StrStack::refLen;
+}

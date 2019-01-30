@@ -1,0 +1,198 @@
+/***************************************************************************
+*   Copyright (C) 2007 by Enrique Escobar   *
+*   Enrique.Escobar@genome.ulaval.ca   *
+*                                                                         *
+*   This program is free software; you can redistribute it and/or modify  *
+*   it under the terms of the GNU Library General Public License as       *
+*   published by the Free Software Foundation; either version 2 of the    *
+*   License, or (at your option) any later version.                       *
+*                                                                         *
+*   This program is distributed in the hope that it will be useful,       *
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+*   GNU General Public License for more details.                          *
+*                                                                         *
+*   You should have received a copy of the GNU Library General Public     *
+*   License along with this program; if not, write to the                 *
+*   Free Software Foundation, Inc.,                                       *
+*   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+***************************************************************************/
+
+
+#ifdef		HAVE_CONFIG_H
+#include	<config.h>
+#endif
+
+#include	<iostream>	//std io
+#include	<cstdlib>
+
+#include	<fstream>	//file io
+#include	<list>
+#include	<map>
+#include	<string>
+
+#include	"StrStack.hpp"
+#include	"Sequence.hpp"
+
+using namespace std;
+
+
+// class		FrequencyList
+// {
+// protected:
+// 	typedef				map<string,int>	Map;
+// 	
+// 	friend ifstream&	operator>> ( istream&, FrequencyList& );
+// 	friend ostream&		operator<< ( ostream&, const FrequencyList& );
+// 	
+// 	Map					myMap;
+// 	bool				extract( string&, string );
+// };
+StrStack			myStrStack;
+
+int			main( int argc, char *argv[] )
+{
+	cout				<< "Beginning!\n";
+	
+	string	in_FileName	=	argv[1];
+	string	outFileName	=	argv[2];
+	
+	if ( argc != 3 )
+	{
+		cerr			<< "Wrong number of parameters!\n" << endl;
+		
+		return			EXIT_FAILURE;
+	}
+	else
+	{
+		cerr			<< "@param1=" << argv[1] << "\t" << "@param2=" << argv[2] << "\n" << endl;
+		
+		if ( ( in_FileName.compare( outFileName ) )==0 )
+		{
+			cerr		<< "Idem parameters!\n" << endl;
+			
+			return		EXIT_FAILURE;
+		}
+	}
+	
+	ifstream			input_Stream( argv[1], ios::in  );
+	if ( input_Stream.fail() )
+	{
+		cerr			<< "Cannot open file" << in_FileName << endl;
+		
+		return			EXIT_FAILURE;
+	}
+	
+	string	str="";
+	
+	while ( input_Stream.good() )
+	{
+		getline( input_Stream, str );
+		if( ! input_Stream.eof() )
+		{
+			myStrStack.push( str );
+			cout		<< myStrStack.getDepth() << " << " << str << ":(\n";
+			cout		<< ">>" << myStrStack.peek() << ":)\n";
+			cout		<< myStrStack.getRefSeq() << "\t" << myStrStack.getRefLen() << ":(\n";
+		}
+		else
+		{
+			break;
+		}
+	}
+	
+	ofstream			outputStream( argv[2], ios::out );
+	if ( outputStream.fail() )
+	{
+		cerr			<< "Cannot open file" << outFileName << endl;
+		
+		return			EXIT_FAILURE;
+	}
+	
+// 	FrequencyList		aFList;
+// 	input_Stream		>> aFList;
+// 	outputStream		<< aFList;
+// 	cout				<< aFList;
+
+	input_Stream.close();
+	outputStream.close();
+	
+	cout				<< "Ending!\n";
+	
+	return				EXIT_SUCCESS;
+}
+
+
+// ifstream&	operator>>( istream& istr, FrequencyList& aFList )
+// {
+// 	typedef				FrequencyList::Map::iterator FlM_iter;
+// 	
+// 	string				aLine, aWord;
+// 	
+// 	for ( int n=1 ; getline( istr, aLine ) ; n++ )
+// 		while ( aFList.extract( aWord,aLine ) )
+// 		{
+// 			FlM_iter	iter	=	aFList.myMap.find(aWord);
+// 			// insert iter
+// 			if ( iter == aFList.myMap.end() )
+// 				aFList.myMap[aWord] = 1;
+// 			// count iter
+// 			else
+// 				++( aFList.myMap[aWord] );
+// 		}
+// }
+// 
+// 
+// ostream&	operator<<( ostream& ostr, const FrequencyList& aFList )
+// {
+// 	typedef				FrequencyList::Map::const_iterator FlM_c_i;
+// 	
+// 	for ( FlM_c_i iter=aFList.myMap.begin() ; iter!=aFList.myMap.end(); iter++ )
+// 		ostr << iter->first << ": " << iter->second << '\n';
+// 	
+// 	return				ostr;
+// }
+// 
+// 
+// bool		FrequencyList::extract( string& aWord, string aLine )
+// {
+// 	// points to next character to be processed
+// 	static	int	p2Next	=	0;
+// 	
+// 	// look for beginning of next word
+// 	while ( p2Next<aLine.length() && !isalpha( aLine[p2Next] ) )
+// 		++p2Next;
+// 	
+// 	// there are no more words on this line
+// 	if ( p2Next == aLine.length() )
+// 	{
+// 		// begin at the beginning of next line on next call
+// 		p2Next			=	0;
+// 		// this call found no word on this line
+// 		return			false;
+// 	}
+// 	
+// 	// points to first letter of word
+// 	int	start			=	p2Next;
+// 	
+// 	// find end of word
+// 	while ( isalpha( aLine[p2Next] ) )
+// 		++p2Next;
+// 	
+// 	// word = line[start:start+len]
+// 	int	len				=	p2Next-start;
+// 	// allocate len characterss to word
+// 	aWord				=	string( len,' ' );
+// 	
+// 	// extract word from line
+// 	for ( int i=0 ; i<len ; i++ )
+// 		// capitalize letters
+// 		aWord[i]		=	toupper( aLine[start+i] );
+// 	
+// 	while ( p2Next<aLine.length() && !isspace( aLine[p2Next] ) )
+// 		// eat extraneous suffixes, such as "'s"
+// 		++p2Next;
+// 	
+// 	return				true;
+// }
+
